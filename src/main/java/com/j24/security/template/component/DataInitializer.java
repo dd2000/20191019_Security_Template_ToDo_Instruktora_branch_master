@@ -5,6 +5,7 @@ import com.j24.security.template.model.AccountRole;
 import com.j24.security.template.repository.AccountRepository;
 import com.j24.security.template.repository.AccountRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,13 +24,20 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${default.roles}")
+    private String[] defaultRoles;
+
+    @Value("${default.admin.password:admin}")
+    private String defaultAdminPassword;
+
     //    Ta metoda uruchomi się automatycznie po stworzeniu/aktualizacji bazy
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        addRole("ADMIN");
-        addRole("USER");
+        for (String role : defaultRoles) {
+            addRole(role);
+        }
 
-        addUser("admin", "admin", "USER", "ADMIN");
+        addUser("admin", defaultAdminPassword, "USER", "ADMIN");
         addUser("user", "user", "USER");
     }
 
