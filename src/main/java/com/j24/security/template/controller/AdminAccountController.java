@@ -1,6 +1,7 @@
 package com.j24.security.template.controller;
 
 import com.j24.security.template.model.Account;
+import com.j24.security.template.service.AccountRoleService;
 import com.j24.security.template.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.management.openmbean.CompositeData;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/admin/account/")
@@ -20,6 +22,8 @@ public class AdminAccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private AccountRoleService accountRoleService;
 
     @GetMapping("/list")
     public String getUserList(Model model) {
@@ -41,4 +45,17 @@ public class AdminAccountController {
 
         return "redirect:/admin/account/list";
     }
+
+    @GetMapping("/editRoles")
+    public String editRoles(Model model, @RequestParam("accountId") Long id) {
+        Optional<Account> accountOptional = accountService.getById(id);
+        if (accountOptional.isPresent()) {
+            model.addAttribute("roles", accountRoleService.getAll());
+            model.addAttribute("user", accountOptional.get());
+
+            return "account-roles";
+        }
+        return "redirect:/admin/account/list";
+    }
+
 }

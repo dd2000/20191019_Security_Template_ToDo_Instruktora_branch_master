@@ -74,4 +74,8 @@ public class AccountService {
         }
         return accountRoles;
     }
+
+    public Optional<Account> getById(Long id) {
+        return accountRepository.findById(id);
+    }
 }
