@@ -6,6 +6,7 @@ import com.j24.security.template.model.dto.UserRegistrationRequest;
 import com.j24.security.template.repository.AccountRepository;
 import com.j24.security.template.repository.AccountRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class AccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${default.user.roles:USER}")
+    private String[] defaultUserRegisterRoles;
 
     public List<Account> getAll() {
         return accountRepository.findAll();
@@ -58,7 +62,7 @@ public class AccountService {
         account.setUsername(request.getUsername());
         account.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        account.setRoles(findRolesByName("USER"));
+        account.setRoles(findRolesByName(defaultUserRegisterRoles));
 
         accountRepository.save(account);
 
