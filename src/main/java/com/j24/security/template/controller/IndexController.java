@@ -40,15 +40,19 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid UserRegistrationRequest request,
+    public String register(Model model,
+                           @Valid UserRegistrationRequest request,
                            BindingResult bindingResult) {
         if (!request.arePasswordsEqual()) {
+            model.addAttribute("errorMessage", "Passwords do not match");
             return "registration-form";
         }
         if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", bindingResult.getFieldError().getDefaultMessage());
             return "registration-form";
         }
         if (!accountService.register(request)) {
+            model.addAttribute("errorMessage", "This username is already taken.");
             return "registration-form";
         }
         return "redirect:/login";
