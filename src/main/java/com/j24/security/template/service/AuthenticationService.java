@@ -30,6 +30,7 @@ public class AuthenticationService implements UserDetailsService {
                     .toArray(String[]::new);
 
             return User.builder()
+                    .accountLocked(account.isLocked())
                     .username(account.getUsername())
                     .password(account.getPassword())
                     .roles(roles)

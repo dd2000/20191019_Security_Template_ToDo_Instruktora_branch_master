@@ -21,8 +21,15 @@ public class Account {
     private String username;
     private String password;
 
+    private boolean locked;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @Cascade(value = {org.hibernate.annotations.CascadeType.DETACH})
     private Set<AccountRole> roles;
 
+    public boolean isAdmin() {
+        return roles.stream()
+                .map(AccountRole::getName)
+                .anyMatch(s -> s.equals("ADMIN"));
+    }
 }
