@@ -8,10 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.management.openmbean.CompositeData;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +57,13 @@ public class AdminAccountController {
 
             return "account-roles";
         }
+        return "redirect:/admin/account/list";
+    }
+
+    @PostMapping("/editRoles")
+    public String editRoles(Long accountId, HttpServletRequest request) {
+        accountService.updateRoles(accountId, request);
+
         return "redirect:/admin/account/list";
     }
 

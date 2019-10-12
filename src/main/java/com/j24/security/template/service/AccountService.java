@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -77,5 +75,28 @@ public class AccountService {
 
     public Optional<Account> getById(Long id) {
         return accountRepository.findById(id);
+    }
+
+    public void updateRoles(Long accountId, HttpServletRequest request) {
+        // klucz w mapie to nazwa parametru
+        // wartość to tablica, gdzie 0 element to wartość pola
+        // accountId -> String[] {"2", "2"}
+        // ADMIN -> String[] {"on"}
+        // USER -> String[] {"on"} (jeśli nie będzie zaznaczony to nie wystąpi w mapie)
+
+        Optional<Account> accountOptional = accountRepository.findById(accountId);
+        if (accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+
+            Map<String, String[]> parameterMap = request.getParameterMap();
+            Set<AccountRole> accountRoles = new HashSet<>();
+
+            for (String key : parameterMap.keySet()) {
+                accountRoleRepository.findByName(key).ifPresent(accountRoles::add);
+            }
+
+            account.setRoles(accountRoles);
+            accountRepository.save(account);
+        }
     }
 }

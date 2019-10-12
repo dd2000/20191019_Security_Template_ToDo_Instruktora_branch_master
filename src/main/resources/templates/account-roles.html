@@ -8,13 +8,14 @@
 <body>
 <th:block th:replace="fragments :: navigator" th:remove="tag"></th:block>
 
-<form th:action="@{/editRoles}" method="post">
+<form th:action="@{/admin/account/editRoles}" method="post">
     <div class="content-container">
         <div class="container">
             <div class="row col-12">
                 <div class="row col-12">
                     <h1>Edit roles form</h1>
                 </div>
+                <input type="hidden" name="accountId" th:value="${user.getId()}">
                 <div class="row col-12" th:each="role : ${roles}">
                     <div class="col-3" th:text="${role.getName()}"></div>
                     <div class="offset-6 col-3">
