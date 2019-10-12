@@ -7,38 +7,41 @@
 </head>
 <body>
 <th:block th:replace="fragments :: navigator" th:remove="tag"></th:block>
-<div class="content-container">
-    <div class="container">
-        <div class="row col-12">
+
+<form th:action="@{/login}" method="post">
+    <div class="content-container">
+        <div class="container">
             <div class="row col-12">
-                <h1>Login form</h1>
-            </div>
-            <div class="row col-12">
-                <div class="col-6">
-                    <label for="username">Username:</label>
+                <div class="row col-12">
+                    <h1>Login form</h1>
                 </div>
-                <div class="col-6">
-                    <input class="form-control" id="username" type="text" name="username">
+                <div class="row col-12">
+                    <div class="col-6">
+                        <label for="username">Username:</label>
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" id="username" type="text" name="username">
+                    </div>
                 </div>
-            </div>
-            <div class="row col-12">
-                <div class="col-6">
-                    <label for="password">Password:</label>
+                <div class="row col-12">
+                    <div class="col-6">
+                        <label for="password">Password:</label>
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" id="password" type="password" name="password">
+                    </div>
                 </div>
-                <div class="col-6">
-                    <input class="form-control" id="password" type="password" name="password">
-                </div>
-            </div>
-            <div class="row col-12">
-                <div class="col-6">
-                </div>
-                <div class="col-6">
-                    <input class="form-control" type="submit" name="username">
+                <div class="row col-12">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" type="submit" name="username">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 <th:block th:replace="fragments :: footer" th:remove="tag"></th:block>
 <th:block th:replace="fragments :: jsScripts" th:remove="tag"></th:block>
